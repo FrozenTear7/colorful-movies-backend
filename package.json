@@ -6,9 +6,10 @@
     "start": "nodemon app.js"
   },
   "dependencies": {
+    "body-parser": "latest",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
-    "nodemon": "^1.18.10",
     "neo4j-driver": "latest",
-    "body-parser": "latest"
+    "nodemon": "^1.18.10"
   }
 }

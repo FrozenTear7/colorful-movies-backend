@@ -1,7 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const config = require('./config')
+const cors = require('cors')
 const neo4j = require('neo4j-driver').v1
+
+const config = require('./config')
+
 const moviesController = require('./controllers/moviesController')
 
 const app = express()
@@ -12,23 +15,7 @@ const urlencodedParser = bodyParser.urlencoded({extended: false})
 
 app.use(jsonParser)
 app.use(urlencodedParser)
-
-app.post('/movies/:movieId', (req, res) => {
-  const session = driver.session()
-
-  session
-    .run(`CREATE (n:Movie {id: ${req.body.imdbID}, name: ${req.body.title}})`)
-    .then(function (result) {
-      result.records.forEach((record) => {
-        console.log(record)
-      })
-
-      session.close()
-    })
-    .catch((error) => {
-      res.status(500).send(error)
-    })
-})
+app.use(cors())
 
 app.use(router)
 
