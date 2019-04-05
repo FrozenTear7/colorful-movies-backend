@@ -20,6 +20,7 @@ app.use(cors())
 app.use(router)
 
 router.route('/movies')
+  .get(moviesController.getMovies)
   .post(moviesController.postMovie)
 
 app.listen(3001, () => {
