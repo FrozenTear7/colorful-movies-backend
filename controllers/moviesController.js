@@ -1,6 +1,6 @@
 const app = require('../app')
 
-exports.postMovie = (req, res) => {
+exports.putMovie = (req, res) => {
   const session = app.driver.session()
 
   session
@@ -9,37 +9,24 @@ exports.postMovie = (req, res) => {
     .then(() => {
       session
         .run(`MATCH (u:User), (m:Movie {imdbID: "${req.params.imdbID}"}) WHERE ID(u) = ${req.headers.userid} 
-        AND NOT (u) -[:RATED]-> (m)
-        CREATE (m) <-[:RATED {Color: "${req.body.Color}"}]- (u)`)
+        MERGE (m) <-[r:RATED]- (u)
+        ON CREATE SET
+            r.Color = "${req.body.Color}"
+        ON MATCH SET
+            r.Color = "${req.body.Color}"`)
         .then(() => {
-          res.status(200).send({Info: 'Successfully added to the list'})
+          res.status(200).send({Info: 'Successfully added rating'})
         })
-        .catch(() => {
-          res.status(500).send({Error: 'Could not add to the list'})
+        .catch((error) => {
+          console.log(error)
+          res.status(500).send({Error: 'Could not add rating'})
         })
         .finally(() => {
           session.close()
         })
     })
     .catch(() => {
-      res.status(500).send({Error: 'Could not add to the list'})
-    })
-}
-
-exports.updateMovie = (req, res) => {
-  const session = app.driver.session()
-
-  session
-    .run(`MATCH (u:User) -[r:RATED]-> (:Movie {imdbID: "${req.params.imdbID}"}) WHERE ID(u) = ${req.headers.userid}
-    SET r.Color = "${req.body.Color}"`)
-    .then(() => {
-      res.status(200).send({Info: 'Successfully updated rating'})
-    })
-    .catch(() => {
-      res.status(500).send({Error: 'Could not update the rating'})
-    })
-    .finally(() => {
-      session.close()
+      res.status(500).send({Error: 'Could not add rating'})
     })
 }
 

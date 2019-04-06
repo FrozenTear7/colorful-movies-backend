@@ -24,8 +24,7 @@ router.route('/movies')
 
 router.route('/movies/:imdbID')
   .get(moviesController.getMovie)
-  .post(moviesController.postMovie)
-  .put(moviesController.updateMovie)
+  .put(moviesController.putMovie)
   .delete(moviesController.deleteMovie)
 
 app.listen(3001, () => {
