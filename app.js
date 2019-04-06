@@ -21,6 +21,9 @@ app.use(router)
 
 router.route('/movies')
   .get(moviesController.getMovies)
+
+router.route('/movies/:imdbID')
+  .get(moviesController.getMovie)
   .post(moviesController.postMovie)
   .put(moviesController.updateMovie)
   .delete(moviesController.deleteMovie)
