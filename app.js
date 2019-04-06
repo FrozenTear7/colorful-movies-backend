@@ -22,6 +22,8 @@ app.use(router)
 router.route('/movies')
   .get(moviesController.getMovies)
   .post(moviesController.postMovie)
+  .put(moviesController.updateMovie)
+  .delete(moviesController.deleteMovie)
 
 app.listen(3001, () => {
   console.log('Server running')
