@@ -27,8 +27,6 @@ router.route('/movies/:imdbID')
   .put(moviesController.putMovie)
   .delete(moviesController.deleteMovie)
 
-app.listen(3001, () => {
-  console.log('Server running')
-})
+app.listen(process.env.PORT || 3001)
 
 exports.driver = neo4j.driver(config.db.connection, neo4j.auth.basic(config.db.login, config.db.password))
