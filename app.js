@@ -1,18 +1,34 @@
 const express = require('express')
-const path = require('path')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const neo4j = require('neo4j-driver').v1
+
+const config = require('./config')
+
+const moviesController = require('./controllers/moviesController')
 
 const app = express()
+const router = express.Router()
 
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'pug')
+const jsonParser = bodyParser.json()
+const urlencodedParser = bodyParser.urlencoded({extended: false})
 
-app.use(express.json())
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(jsonParser)
+app.use(urlencodedParser)
+app.use(cors())
 
-app.get('/', (req, res) => {
-  res.send('Welcome to Colorful Movies')
-})
+app.use(router)
+
+router.route('/movies')
+  .get(moviesController.getMovies)
+
+router.route('/movies/:imdbID')
+  .get(moviesController.getMovie)
+  .put(moviesController.putMovie)
+  .delete(moviesController.deleteMovie)
 
 app.listen(3001, () => {
   console.log('Server running')
 })
+
+exports.driver = neo4j.driver(config.db.connection, neo4j.auth.basic(config.db.login, config.db.password))
