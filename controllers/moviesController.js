@@ -11,9 +11,9 @@ exports.putMovie = (req, res) => {
         .run(`MATCH (u:User), (m:Movie {imdbID: "${req.params.imdbID}"}) WHERE ID(u) = ${req.headers.userid} 
         MERGE (m) <-[r:RATED]- (u)
         ON CREATE SET
-            r.Color = "${req.body.Color}"
+            r.Color = [${req.body.Colors.map(color => `"${color}"`)}]
         ON MATCH SET
-            r.Color = "${req.body.Color}"`)
+            r.Color = [${req.body.Colors.map(color => `"${color}"`)}]`)
         .then(() => {
           res.status(200).send({Info: 'Successfully added rating'})
         })
