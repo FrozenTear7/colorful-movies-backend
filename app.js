@@ -29,4 +29,5 @@ router.route('/movies/:imdbID')
 
 app.listen(process.env.PORT || 3001)
 
-exports.driver = neo4j.driver(config.db.connection, neo4j.auth.basic(config.db.login, config.db.password))
+exports.driver = neo4j.driver(process.env.connection || config.db.connection,
+  neo4j.auth.basic(process.env.login || config.db.login, process.env.password || config.db.password))
