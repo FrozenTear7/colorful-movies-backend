@@ -56,11 +56,11 @@ exports.deleteMovie = (req, res) => {
     })
 }
 
-exports.getMovies = (req, res) => {
+exports.getUserMovies = (req, res) => {
   const session = app.driver.session()
 
   session
-    .run(`MATCH (u:User) -[:RATED]-> (m:Movie) WHERE ID(u) = ${req.headers.userid} RETURN m`)
+    .run(`MATCH (u:User) -[:RATED]-> (m:Movie) WHERE ID(u) = ${req.params.userid} RETURN m`)
     .then((result) => {
       res.status(200).send({
         Info: 'Successfully fetched user\'s movies',
