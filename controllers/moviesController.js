@@ -60,7 +60,7 @@ exports.getUserMovies = (req, res) => {
   const session = app.driver.session()
 
   session
-    .run(`MATCH (u:User) -[:RATED]-> (m:Movie) WHERE ID(u) = ${req.params.userid} RETURN m`)
+    .run(`MATCH (u:User) -[r:RATED]-> (m:Movie) WHERE ID(u) = ${req.params.userid} RETURN m, r`)
     .then((result) => {
       res.status(200).send({
         Info: 'Successfully fetched user\'s movies',
