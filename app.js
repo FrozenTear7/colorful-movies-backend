@@ -15,18 +15,18 @@ const router = express.Router()
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({extended: false})
 
-const checkJwt = jwt({
-  secret: jwksRsa.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 5,
-    jwksUri: `${process.env.login || config.auth0.domain}.well-known/jwks.json`,
-  }),
-
-  audience: process.env.client_id || config.auth0.client_id,
-  issuer: process.env.domain || config.auth0.domain,
-  algorithms: ['RS256'],
-})
+// const checkJwt = jwt({
+//   secret: jwksRsa.expressJwtSecret({
+//     cache: true,
+//     rateLimit: true,
+//     jwksRequestsPerMinute: 5,
+//     jwksUri: `${process.env.login || config.auth0.domain}.well-known/jwks.json`,
+//   }),
+//
+//   audience: process.env.client_id || config.auth0.client_id,
+//   issuer: process.env.domain || config.auth0.domain,
+//   algorithms: ['RS256'],
+// })
 
 app.use(jsonParser)
 app.use(urlencodedParser)
@@ -38,9 +38,9 @@ router.route('/users/:userid')
   .get(moviesController.getUserMovies)
 
 router.route('/movies/:imdbID')
-  .get(checkJwt, moviesController.getMovie)
-  .put(checkJwt, moviesController.putMovie)
-  .delete(checkJwt, moviesController.deleteMovie)
+  .get(moviesController.getMovie)
+  .put(moviesController.putMovie)
+  .delete(moviesController.deleteMovie)
 
 app.listen(process.env.PORT || 3001)
 
