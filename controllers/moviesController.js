@@ -11,9 +11,9 @@ exports.putMovie = (req, res) => {
         .run(`MATCH (u:User), (m:Movie {imdbID: "${req.params.imdbID}"}) WHERE ID(u) = ${req.headers.userid} 
         MERGE (m) <-[r:RATED]- (u)
         ON CREATE SET
-            r.Color = [${req.body.Colors.map(color => `"${color}"`)}]
+            r.Colors = [${req.body.Colorss.map(color => `"${color}"`)}]
         ON MATCH SET
-            r.Color = [${req.body.Colors.map(color => `"${color}"`)}]`)
+            r.Colors = [${req.body.Colorss.map(color => `"${color}"`)}]`)
         .then(() => {
           res.status(200).send({Info: 'Successfully added rating'})
         })
@@ -64,7 +64,12 @@ exports.getUserMovies = (req, res) => {
     .then((result) => {
       res.status(200).send({
         Info: 'Successfully fetched user\'s movies',
-        Result: result.records.map(record => record._fields[0].properties),
+        Result: result.records.map(record => {
+          return {
+            movie: record._fields[0].properties,
+            ratings: record._fields[1].properties
+          }
+        }),
       })
     })
     .catch(() => {
@@ -80,7 +85,7 @@ exports.getMovie = (req, res) => {
 
   session
     .run(`MATCH (u:User) -[r:RATED]-> (:Movie {imdbID: "${req.params.imdbID}"}) 
-    WHERE ID(u) = ${req.headers.userid} RETURN r.Color`)
+    WHERE ID(u) = ${req.headers.userid} RETURN r.Colors`)
     .then((result) => {
       res.status(200).send({
         Info: 'Successfully fetched movie\'s rating',
