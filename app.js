@@ -19,8 +19,8 @@ app.use(cors())
 
 app.use(router)
 
-router.route('/movies')
-  .get(moviesController.getMovies)
+router.route('/users/:userid')
+  .get(moviesController.getUserMovies)
 
 router.route('/movies/:imdbID')
   .get(moviesController.getMovie)

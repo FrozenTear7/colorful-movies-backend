@@ -11,9 +11,9 @@ exports.putMovie = (req, res) => {
         .run(`MATCH (u:User), (m:Movie {imdbID: "${req.params.imdbID}"}) WHERE ID(u) = ${req.headers.userid} 
         MERGE (m) <-[r:RATED]- (u)
         ON CREATE SET
-            r.Color = [${req.body.Colors.map(color => `"${color}"`)}]
+            r.Colors = [${req.body.Colors.map(color => `"${color}"`)}]
         ON MATCH SET
-            r.Color = [${req.body.Colors.map(color => `"${color}"`)}]`)
+            r.Colors = [${req.body.Colors.map(color => `"${color}"`)}]`)
         .then(() => {
           res.status(200).send({Info: 'Successfully added rating'})
         })
@@ -27,6 +27,7 @@ exports.putMovie = (req, res) => {
     })
     .catch(() => {
       res.status(500).send({Error: 'Could not add rating'})
+      session.close()
     })
 }
 
@@ -39,10 +40,7 @@ exports.deleteMovie = (req, res) => {
       session
         .run(`MATCH (m:Movie) WHERE NOT (m) <-- () DELETE m`)
         .then(() => {
-          res.status(200).send({Info: 'Successfully deleted rating'})
-        })
-        .catch(() => {
-          res.status(500).send({Error: 'Could not delete the rating'})
+          res.status(200).send({Info: 'Successfully deleted movies'})
         })
         .finally(() => {
           session.close()
@@ -50,21 +48,24 @@ exports.deleteMovie = (req, res) => {
     })
     .catch(() => {
       res.status(500).send({Error: 'Could not delete the rating'})
-    })
-    .finally(() => {
       session.close()
     })
 }
 
-exports.getMovies = (req, res) => {
+exports.getUserMovies = (req, res) => {
   const session = app.driver.session()
 
   session
-    .run(`MATCH (u:User) -[:RATED]-> (m:Movie) WHERE ID(u) = ${req.headers.userid} RETURN m`)
+    .run(`MATCH (u:User) -[r:RATED]-> (m:Movie) WHERE ID(u) = ${req.params.userid} RETURN m, r`)
     .then((result) => {
       res.status(200).send({
         Info: 'Successfully fetched user\'s movies',
-        Result: result.records.map(record => record._fields[0].properties),
+        Result: result.records.map(record => {
+          return {
+            movie: record._fields[0].properties,
+            ratings: record._fields[1].properties,
+          }
+        }),
       })
     })
     .catch(() => {
@@ -80,7 +81,7 @@ exports.getMovie = (req, res) => {
 
   session
     .run(`MATCH (u:User) -[r:RATED]-> (:Movie {imdbID: "${req.params.imdbID}"}) 
-    WHERE ID(u) = ${req.headers.userid} RETURN r.Color`)
+    WHERE ID(u) = ${req.headers.userid} RETURN r.Colors`)
     .then((result) => {
       res.status(200).send({
         Info: 'Successfully fetched movie\'s rating',
