@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const neo4j = require('neo4j-driver').v1
 
-// const config = require('./config')
+const config = require('./config')
 
 const moviesController = require('./controllers/moviesController')
 

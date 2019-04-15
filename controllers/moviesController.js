@@ -27,6 +27,7 @@ exports.putMovie = (req, res) => {
     })
     .catch(() => {
       res.status(500).send({Error: 'Could not add rating'})
+      session.close()
     })
 }
 
@@ -39,10 +40,7 @@ exports.deleteMovie = (req, res) => {
       session
         .run(`MATCH (m:Movie) WHERE NOT (m) <-- () DELETE m`)
         .then(() => {
-          res.status(200).send({Info: 'Successfully deleted rating'})
-        })
-        .catch(() => {
-          res.status(500).send({Error: 'Could not delete the rating'})
+          res.status(200).send({Info: 'Successfully deleted movies'})
         })
         .finally(() => {
           session.close()
@@ -50,8 +48,6 @@ exports.deleteMovie = (req, res) => {
     })
     .catch(() => {
       res.status(500).send({Error: 'Could not delete the rating'})
-    })
-    .finally(() => {
       session.close()
     })
 }
@@ -67,7 +63,7 @@ exports.getUserMovies = (req, res) => {
         Result: result.records.map(record => {
           return {
             movie: record._fields[0].properties,
-            ratings: record._fields[1].properties
+            ratings: record._fields[1].properties,
           }
         }),
       })
