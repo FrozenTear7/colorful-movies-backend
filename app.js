@@ -20,14 +20,17 @@ app.use(cors())
 app.use(router)
 
 router.route('/users/:userid')
-  .get(moviesController.getUserMovies)
+    .get(moviesController.getUserMovies)
 
 router.route('/movies/:imdbID')
-  .get(moviesController.getMovie)
-  .put(moviesController.putMovie)
-  .delete(moviesController.deleteMovie)
+    .get(moviesController.getMovie)
+    .put(moviesController.putMovie)
+    .delete(moviesController.deleteMovie)
+
+router.route('/movies/:name&:year')
+    .get(moviesController.findMovies)
 
 app.listen(process.env.PORT || 3001)
 
 exports.driver = neo4j.driver(process.env.connection || config.db.connection,
-  neo4j.auth.basic(process.env.login || config.db.login, process.env.password || config.db.password))
+    neo4j.auth.basic(process.env.login || config.db.login, process.env.password || config.db.password))
