@@ -1,3 +1,9 @@
 language: node_js
 node_js:
-  - "11.12.0"
+- 11.12.0
+deploy:
+  provider: heroku
+  api_key:
+    secure: AbFFXsy9Kj8X3Cm1h2AaXK7Z1cCuQERO+6eu3gzghNavMtiGDKLS7EAVas/ZHDuSAxcmcuysPcjg3Pq4+YTa4lPZakJQZqA4vr5plPBxmjGgs6EtldAi6StYvRXeCsK2loHB6mEZWgQkDBEjBZwZlrmtrqpR0Pr1EcTDvHAhmdsZdxREY1mFME3la1xVdgp0QdQiTpswa680/OGCCFL0sfVsVKmn6ljSkUUxy9X7vyZy6LBARA6dntRxE4pMTw3pDbYjK9NOUtrsxWyvpLerJwZxwQ4bDihgxrsDKDFKN9GZCsoUgKxJsSjtkEaiW/ewjgccqRcvq3cUbNRdWYNe4fBbupYfJYXJ1Al2kjLfmnf1hYFagbqvMXScRE6GvV9Y1/Ila/C9n43oAtgA1eQKqKiw2DMfnbYAqi+2AxFFD/aVdV1sxaIf0BRNn5GtHa1O3nU7u07nXZWCBBEGds2OVxVVSkM14/Urn9le+j0aHLM7EwQ6l8LanVCfstDXOIHujNki2wUsAjrPEX+pvrb3hZhWjUCKzWsxKN+pDsB8M/ZRUmCTdZWH++1v01YEdglE5xmvxtJaW5jhjyzzjxijKIXhyo1IuRPLPioc4gzLKE9gMxo7SKjqGvg4UK/1UjJFQSVcYH7iwqdN9B3PBCfB16NUaR1r1A6NMaPQCACDYs4=
+  app: afterimage-backend
+  on: master
