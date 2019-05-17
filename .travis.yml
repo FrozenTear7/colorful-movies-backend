@@ -6,9 +6,3 @@ install:
 cache:
   directories:
   - "$HOME/.npm"
-deploy:
-  provider: heroku
-  api_key:
-    secure: Kl31noKorqCy59u3zz6N9YuAMwkVC9UbpAktqPdy6SaqRhy5r82BcgxvrC1BBaLvM6cwNitGmeGlNxBYE9zPMfcbIDcAakz4rJLYb/rDxsmH9zWqvui1HB/MDQWBUfZVOL7an0SBQPy4YVDo63v0HOds6dn+5ZJNlR9uJcFE93/dn94CjFJ4XxkgVLpGwsMAB+IS0IOKa6sTJagwmV9mChrxfTcEPDXIWo5uYgk0Bdny0FbuApegvBP2Ukvk77rhM1POxlb/kBkc6lHgS/tacHe/oZiQH2SN9JB4dW2G6N2IVlACbr9TRLB9ZX4ayqcGWkpnYOq2yPFDayulYcvLvckpLyVwJIF9XkeO3YvP2H7B3wPghlG5rfN314v6lsHrxX4gYgfNw/uqcWZUUEcNeiNfoMd+8IJQs+h0/0VYValTGUPx3bvHzUG6hYCcx+jChCu9kOm8Qe3cDDjgcC8m8sgHwWmyIR76qVAkG66f3MBc04uDQ5DDBbELfl1oRhf2QvpMBZAdgpnUbwZWltnS2if9OJHrN4oabsTxbhZqffNZd4+rR3C2qmXRSZZgHs/DFET5m/yznFmc75fIqPQBdBh7q3THJxFKM1t9iyVKzVmc/0aHEZAc+6Ep9u6LHRGraRxTokwbnXeyl6x8c8zpd+pJ9SNEMOx5tNigppZeeaE=
-  app: afterimage-backend
-  on: master
