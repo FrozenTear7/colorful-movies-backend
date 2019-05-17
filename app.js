@@ -31,7 +31,7 @@ router.route('/findMovies/:s/:y/:page')
     .get(moviesController.findMovies)
 
 router.route('/findMovie/:i')
-    .get(moviesController.findMovies)
+    .get(moviesController.findMovie)
 
 app.listen(process.env.PORT || 3001)
 
