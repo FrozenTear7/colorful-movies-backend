@@ -1,4 +1,5 @@
 const app = require('../app')
+const request = require('request')
 
 exports.putMovie = (req, res) => {
     const session = app.driver.session()
@@ -95,9 +96,6 @@ exports.getMovie = (req, res) => {
             session.close()
         })
 }
-
-const app = require('../app')
-const requets = require('request')
 
 exports.putMovie = (req, res) => {
     const session = app.driver.session()
@@ -196,13 +194,23 @@ exports.getMovie = (req, res) => {
 }
 
 exports.findMovies = (req, res) => {
+    let uri = `http://www.omdbapi.com/?apikey=${process.env.omdb_api_key}&s=${req.params.s}&page=${req.params.page}`
+    if (req.params.y !== '-1')
+        uri += `&y=${req.params.y}`
+
     request({
-        uri: `https://www.omdbapi.com?y=${req.params.year}`,
+        uri: uri,
         method: 'GET',
-        params: {...req.params, apikey: process.env.omdb_api_key},
-    }, (err, res, body) => {
-        console.log(res)
-        console.log(body)
-        res.status(200).send(res)
+    }, (err, movieRes, body) => {
+        res.status(200).send(body)
+    })
+}
+
+exports.findMovie = (req, res) => {
+    request({
+        uri: `http://www.omdbapi.com/?apikey=${process.env.omdb_api_key}&i=${req.params.i}&plot=full`,
+        method: 'GET',
+    }, (err, movieRes, body) => {
+        res.status(200).send(body)
     })
 }

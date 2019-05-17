@@ -2,8 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const neo4j = require('neo4j-driver').v1
-
-// const config = require('./config')
+require('dotenv').config()
 
 const moviesController = require('./controllers/moviesController')
 
@@ -12,6 +11,7 @@ const router = express.Router()
 
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({extended: false})
+
 
 app.use(jsonParser)
 app.use(urlencodedParser)
@@ -27,10 +27,13 @@ router.route('/movies/:imdbID')
     .put(moviesController.putMovie)
     .delete(moviesController.deleteMovie)
 
-router.route('/movies/:name&:year')
+router.route('/findMovies/:s/:y/:page')
+    .get(moviesController.findMovies)
+
+router.route('/findMovie/:i')
     .get(moviesController.findMovies)
 
 app.listen(process.env.PORT || 3001)
 
-exports.driver = neo4j.driver(process.env.connection || config.db.connection,
-    neo4j.auth.basic(process.env.login || config.db.login, process.env.password || config.db.password))
+exports.driver = neo4j.driver(process.env.connection,
+    neo4j.auth.basic(process.env.login, process.env.password))

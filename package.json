@@ -3,13 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node ./app.js"
+    "start": "nodemon ./app.js"
   },
   "dependencies": {
     "body-parser": "latest",
     "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
     "express": "^4.16.4",
     "neo4j-driver": "latest",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "request": "latest"
   }
 }
