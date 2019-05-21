@@ -33,7 +33,7 @@ router.route('/findMovies/:s/:y/:page')
 router.route('/findMovie/:i')
     .get(moviesController.findMovie)
 
-app.listen(process.env.PORT || 3001)
+app.listen(process.env.port || 3001)
 
 exports.driver = neo4j.driver(process.env.connection,
     neo4j.auth.basic(process.env.login, process.env.password))

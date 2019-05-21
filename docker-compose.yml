@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  afterimage-backend:
+    build: .
+    command: npm start
+    env_file: .env
+    volumes:
+      - .:/usr/afterimage-backend
+      - /usr/node_modules
+    ports:
+      - "3001:3001"
